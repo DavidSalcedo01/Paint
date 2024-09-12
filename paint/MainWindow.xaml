@@ -1,0 +1,145 @@
+﻿<Window x:Class="paint.MainWindow"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:paint" 
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="Transparent" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            <Grid>
+                <materialDesign:ColorZone Mode="PrimaryDark">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        
+                        <Button Height="30" Width="30" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="0" x:Name="btn_minimize" Click="btn_minimize_Click">
+                            <materialDesign:PackIcon Kind="WindowMinimize"/>
+                        </Button>
+                        <Button Height="30" Width="30" Padding="0" x:Name="btn_size" Click="btn_size_Click">
+                            <materialDesign:PackIcon Kind="WindowMaximize"/>
+                        </Button>
+                        <Button Height="30" Width="30" Padding="0" x:Name="btn_exit" Click="btn_exit_Click">
+                            <materialDesign:PackIcon Kind="WindowClose"/>
+                        </Button>
+                        
+                    </StackPanel>
+                </materialDesign:ColorZone>
+            </Grid>
+        </Border>
+
+
+        <Grid Grid.Row="1" Background="LightGray">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Grid Grid.Column="0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="0,20">
+                        <Button Height="25" Width="25" Padding="0" Cursor="Hand" Margin="0,6,0,0" BorderBrush="Transparent" x:Name="btn_square" Click="btn_square_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/square.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Height="25" Width="25" Padding="0" Cursor="Hand" Margin="7,6,7,0" BorderBrush="Transparent" x:Name="btn_circle" Click="btn_circle_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/circle.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Height="25" Width="25" Padding="0" Cursor="Hand" Margin="0,6,0,0" BorderBrush="Transparent" x:Name="btn_triangle" Click="btn_triangle_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/triangle.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Height="25" Width="25" Padding="0" Cursor="Hand" Margin="7,6,7,0" BorderBrush="Transparent" x:Name="btn_line" Click="btn_line_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/line.png"/>
+                            </Button.Background>
+                        </Button>
+
+                    </StackPanel>
+                    <Label Width="45" Content="Figuras" FontSize="10" Foreground="Black" VerticalAlignment="Bottom" Margin="0,-10,0,0"/>
+                </StackPanel>
+                <Rectangle Width="1" Height="70" Fill="Gray" HorizontalAlignment="Right"/>
+            </Grid>
+
+
+            <Grid Grid.Column="1">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="-7,10,0,0">
+                        <StackPanel Orientation="Vertical" Margin="6,0">
+                            <Button Height="25" Width="25" Background="Black" Margin="0,0,0,4" BorderBrush="White" BorderThickness="2" x:Name="btn_clrBlack" Click="btn_clrBlack_Click"/>
+                            <Button Height="25" Width="25" Background="red" BorderBrush="White" BorderThickness="2" x:Name="btn_clrRed" Click="btn_clrRed_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <Button Height="25" Width="25" Background="Blue" Margin="0,0,0,4" BorderBrush="White" BorderThickness="2" x:Name="btn_clrBlue" Click="btn_clrBlue_Click"/>
+                            <Button Height="25" Width="25" Background="Green" BorderBrush="White" BorderThickness="2" x:Name="btn_clrGreen" Click="btn_clrGreen_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Label Width="45" Content="Colores" FontSize="10" Foreground="Black" VerticalAlignment="Bottom" Margin="0,-2,0,0"/>
+                </StackPanel>
+                <Rectangle Width="1" Height="70" Fill="Gray" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Grid Grid.Column="2">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="0,25,0,0">
+                        <Button Width="25" Height="25" Cursor="Hand" BorderBrush="Transparent" x:Name="btn_dotLne" Click="btn_dotLne_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/dotStroke.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Width="25" Height="25" Cursor="Hand" Margin="10,0" BorderBrush="Transparent" x:Name="btn_lineStroke" Click="btn_lineStroke_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/lineStroke.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Width="25" Height="25" Cursor="Hand" BorderBrush="Transparent" x:Name="btn_convStroke" Click="btn_convStroke_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/convStroke.png"/>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
+                    <Label Width="45" Content="Estilos" FontSize="10" Foreground="Black" VerticalAlignment="Bottom" Margin="0,12,0,0"/>
+                </StackPanel>
+                <Rectangle Width="1" Height="70" Fill="Gray" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <StackPanel Grid.Column="3" Orientation="Vertical" HorizontalAlignment="Center">
+                <Button Height="25" Width="25" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="0" Margin="0,20,0,0" x:Name="btn_clean" Click="btn_clean_Click">
+                    <materialDesign:PackIcon Kind="Eraser"/>
+                </Button>
+                <Label Width="70" Content="Herramientas" FontSize="10" Foreground="Black" VerticalAlignment="Bottom" Margin="0,16,0,0"/>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.Row="2" Background="DarkGray">
+            <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Canvas Height="420" Width="650" Cursor="Cross" Background="White" Name="canvas" MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                MouseMove="Canvas_MouseMove" MouseLeftButtonUp="Canvas_MouseLeftButtonUp"/>
+            </StackPanel>
+            <Slider Height="200" Width="20" Minimum="1" Maximum="20" Value="2" Margin="15,0,0,0" HorizontalAlignment="Left" Orientation="Vertical" x:Name="sld_stroke" ValueChanged="sld_stroke_ValueChanged"/>
+        </Grid>
+    </Grid>
+</Window>

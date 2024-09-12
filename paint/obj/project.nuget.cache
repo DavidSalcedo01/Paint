@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "dgSpecHash": "QgfhZP3Sij9xcLpxz2sFmvYg9403RgqA/skofBSL7AkQUzB2B/9pOzG/eOWQ32N+CDwneTrTnIfdfj+mnpPRHg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Josh\\Documents\\Ingenieria\\Sexto semestre\\Graficas 2D y 3D\\Practicas\\paint\\paint\\paint.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Josh\\.nuget\\packages\\extended.wpf.toolkit\\4.6.1\\extended.wpf.toolkit.4.6.1.nupkg.sha512",
+    "C:\\Users\\Josh\\.nuget\\packages\\materialdesigncolors\\1.1.2\\materialdesigncolors.1.1.2.nupkg.sha512",
+    "C:\\Users\\Josh\\.nuget\\packages\\materialdesignthemes\\2.3.0.823\\materialdesignthemes.2.3.0.823.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"MaterialDesignColors 1.1.2\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" en lugar de la plataforma de destino del proyecto \"net6.0-windows7.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "MaterialDesignColors",
+      "targetGraphs": [
+        "net6.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"MaterialDesignThemes 2.3.0.823\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" en lugar de la plataforma de destino del proyecto \"net6.0-windows7.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "MaterialDesignThemes",
+      "targetGraphs": [
+        "net6.0-windows7.0"
+      ]
+    }
+  ]
+}
