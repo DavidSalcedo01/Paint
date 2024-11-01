@@ -50,6 +50,7 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="130"/>
                 <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
 
@@ -125,10 +126,41 @@
                 <Rectangle Width="1" Height="70" Fill="Gray" HorizontalAlignment="Right"/>
             </Grid>
 
-            <StackPanel Grid.Column="3" Orientation="Vertical" HorizontalAlignment="Center">
-                <Button Height="25" Width="25" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="0" Margin="0,20,0,0" x:Name="btn_clean" Click="btn_clean_Click">
-                    <materialDesign:PackIcon Kind="Eraser"/>
-                </Button>
+            <Grid Grid.Column="3">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="-7,10,0,0">
+                        <StackPanel Orientation="Vertical" Margin="6,0">
+                            <Button Height="25" Width="25" Background="Black" Margin="0,0,0,4" BorderBrush="White" BorderThickness="2" x:Name="btn_clrBlackBackground" Click="btn_clrBlackBackground_Click"/>
+                            <Button Height="25" Width="25" Background="red" BorderBrush="White" BorderThickness="2" x:Name="btn_clrRedBackground" Click="btn_clrRedBackground_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <Button Height="25" Width="25" Background="Blue" Margin="0,0,0,4" BorderBrush="White" BorderThickness="2" x:Name="btn_clrBlueBackground" Click="btn_clrBlueBackground_Click"/>
+                            <Button Height="25" Width="25" Background="Green" BorderBrush="White" BorderThickness="2" x:Name="btn_clrGreenBackground" Click="btn_clrGreenBackground_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Label Width="38" Content="Fondo" FontSize="10" Foreground="Black" VerticalAlignment="Bottom" Margin="0,-2,0,0"/>
+                </StackPanel>
+                <Rectangle Width="1" Height="70" Fill="Gray" HorizontalAlignment="Right"/>
+            </Grid>
+            
+            <StackPanel Grid.Column="4" Orientation="Vertical" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <Button Height="25" Width="25" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="0" Margin="0,20,0,0" x:Name="btn_clean" Click="btn_clean_Click">
+                        <materialDesign:PackIcon Kind="Eraser"/>
+                    </Button>
+                    <Button Height="25" Width="25" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="0" Margin="10,20,10,0" x:Name="btn_translation" Click="btn_translation_Click">
+                        <materialDesign:PackIcon Kind="CursorPointer"/>
+                    </Button>
+                    <Button Height="25" Width="25" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="0" Margin="0,20,0,0" x:Name="btn_scaled" Click="btn_scaled_Click">
+                        <materialDesign:PackIcon Kind="RelativeScale"/>
+                    </Button>
+                    <Button Height="25" Width="25" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="0" Margin="10,20,10,0" x:Name="btn_rotation" Click="btn_rotation_Click">
+                        <materialDesign:PackIcon Kind="RotateRight"/>
+                    </Button>
+                    <Button Height="25" Width="25" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="0" Margin="0,20,0,0" x:Name="btn_skewed" Click="btn_skewed_Click">
+                        <materialDesign:PackIcon Kind="Pencil"/>
+                    </Button>
+                </StackPanel>
                 <Label Width="70" Content="Herramientas" FontSize="10" Foreground="Black" VerticalAlignment="Bottom" Margin="0,16,0,0"/>
             </StackPanel>
 

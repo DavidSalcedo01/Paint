@@ -16,25 +16,24 @@ using System.Windows.Shapes;
 
 namespace paint
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow: Window
     {
-        private bool isDrawing = false;
-        private string typeShape = "";
-        private Point startPoint;
-        private Rectangle currentRectangle;
-        private Polygon currentTriangle;
-        private Ellipse currentElipse;
-        private Line currentLine;
-        private Brush selectedColor = Brushes.Black;
-        private DoubleCollection selectedPattern = new DoubleCollection();
-        private double slectedThickness = 2; 
+        public Point startPoint;
+        private Resources resources;
+        private Shape shape;
+        public Brush selectedColor = Brushes.Black;
+        public Brush selectedBackground = Brushes.Transparent;
+        public DoubleCollection selectedPattern = new DoubleCollection();
+        public double slectedThickness = 2;
+        private double rotation = 0;
+        private double width, height;
+        private bool isDragging = false;
 
         public MainWindow()
         {
             InitializeComponent();
-
+            resources = new Resources();
         }
-
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
@@ -61,96 +60,39 @@ namespace paint
 
         private void btn_square_Click(object sender, RoutedEventArgs e)
         {
-            isDrawing = true;
-            typeShape = "square";
+            shape = null;
+            resources.isDrawing = true;
+            resources.typeShape = "square";
         }
         private void btn_circle_Click(object sender, RoutedEventArgs e)
         {
-            isDrawing = true;
-            typeShape = "circle";
+            shape = null;
+            resources.isDrawing = true;
+            resources.typeShape = "circle";
         }
         private void btn_triangle_Click(object sender, RoutedEventArgs e)
         {
-            isDrawing = true;
-            typeShape = "triangle";
+            shape = null;
+            resources.isDrawing = true;
+            resources.typeShape = "triangle";
         }
         private void btn_line_Click(object sender, RoutedEventArgs e)
         {
-            isDrawing = true;
-            typeShape = "line";
+            shape = null;
+            resources.isDrawing = true;
+            resources.typeShape = "line";
         }
 
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (isDrawing)
+            if (resources.isDrawing)
             {
                 startPoint = e.GetPosition(canvas);
-                Debug.WriteLine($"posX: {startPoint.X}, posY: {startPoint.Y}");
-
-                if (typeShape == "square")
-                {
-                    currentRectangle = new Rectangle
-                    {
-                        Stroke = selectedColor,
-                        StrokeThickness = slectedThickness,
-                        StrokeDashArray = selectedPattern,
-                        Fill = Brushes.Transparent
-                    };
-
-                    canvas.Children.Add(currentRectangle);
-                    Canvas.SetLeft(currentRectangle, startPoint.X);
-                    Canvas.SetTop(currentRectangle, startPoint.Y);
-                }
-                if (typeShape == "circle")
-                {
-                    currentElipse = new Ellipse
-                    {
-                        Stroke = selectedColor,
-                        StrokeThickness = slectedThickness,
-                        StrokeDashArray = selectedPattern,
-                        Fill = Brushes.Transparent
-                    };
-
-                    canvas.Children.Add(currentElipse);
-                    Canvas.SetLeft(currentElipse, startPoint.X);
-                    Canvas.SetTop(currentElipse, startPoint.Y);
-                }
-                if (typeShape == "triangle")
-                {
-                    currentTriangle = new Polygon
-                    {
-                        Stroke = selectedColor,
-                        StrokeThickness = slectedThickness,
-                        StrokeDashArray = selectedPattern,
-                        Fill = Brushes.Transparent
-                    };
-
-                    PointCollection points = new PointCollection
-                    {
-                        new Point(startPoint.X, startPoint.Y),
-                        new Point(startPoint.X, startPoint.Y),
-                        new Point(startPoint.X, startPoint.Y)
-                    };
-
-                    currentTriangle.Points = points;
-                    canvas.Children.Add(currentTriangle);
-                }
-                if (typeShape == "line")
-                {
-                    currentLine = new Line
-                    {
-                        Stroke = selectedColor,
-                        StrokeThickness = slectedThickness,
-                        StrokeDashArray = selectedPattern,
-                        X1 = startPoint.X,
-                        Y1 = startPoint.Y,
-                        X2 = startPoint.X,
-                        Y2 = startPoint.Y
-                    };
-
-                    canvas.Children.Add(currentLine);
-                }
+                shape = resources.ShapeFactory(selectedColor, slectedThickness, selectedPattern, selectedBackground, startPoint);
+                canvas.Children.Add(shape);
+                Canvas.SetLeft(shape, startPoint.X);
+                Canvas.SetTop(shape, startPoint.Y);
 
                 canvas.CaptureMouse();
             }
@@ -158,113 +100,71 @@ namespace paint
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDrawing && currentRectangle != null || isDrawing && currentElipse != null || isDrawing && currentTriangle != null || isDrawing && currentLine != null)
+            if (resources.isDrawing && shape != null)
             {
                 Point currentPosition = e.GetPosition(canvas);
 
-                double width = Math.Abs(currentPosition.X - startPoint.X);
-                double height = Math.Abs(currentPosition.Y - startPoint.Y);
+                width = Math.Abs(currentPosition.X - startPoint.X);
+                height = Math.Abs(currentPosition.Y - startPoint.Y);
 
-                if (typeShape == "square")
-                {
-                    currentRectangle.Width = width;
-                    currentRectangle.Height = height;
+                shape.Width = width;
+                shape.Height = height;
 
-                    Canvas.SetLeft(currentRectangle, Math.Min(currentPosition.X, startPoint.X));
-                    Canvas.SetTop(currentRectangle, Math.Min(currentPosition.Y, startPoint.Y));
-                }
-                else if (typeShape == "circle")
-                {
-                    currentElipse.Width = width;
-                    currentElipse.Height = height;
+                Canvas.SetLeft(shape, Math.Min(currentPosition.X, startPoint.X));
+                Canvas.SetTop(shape, Math.Min(currentPosition.Y, startPoint.Y));
 
-                    Canvas.SetLeft(currentElipse, Math.Min(currentPosition.X, startPoint.X));
-                    Canvas.SetTop(currentElipse, Math.Min(currentPosition.Y, startPoint.Y));
-                }
-                else if (typeShape == "triangle")
-                {
-                    PointCollection points = new PointCollection
-                    {
-                        new Point(width/2,  Math.Max(currentPosition.Y, startPoint.Y)),
-                        new Point(Math.Max(currentPosition.X, startPoint.X), Math.Max(currentPosition.Y, startPoint.Y)),
-                        new Point(Math.Min(currentPosition.X, startPoint.X), Math.Min(currentPosition.Y, startPoint.Y))
-                    };
-
-                    currentTriangle.Points = points;
-                }
-                else if (typeShape == "line")
-                {
-                    currentLine.X2 = currentPosition.X;
-                    currentLine.Y2 = currentPosition.Y;
-
-                }
+                
             }
         }
 
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (isDrawing)
+            if (resources.isDrawing)
             {
-                isDrawing = false;
-                if (typeShape == "square")
-                {
-                    currentRectangle = null;
-                }
-                else if (typeShape == "circle")
-                {
-                    currentElipse = null;
-                }
-                else if (typeShape == "triangle")
-                {
-                    currentTriangle = null;
-                }
-                else if (typeShape == "line")
-                {
-                    currentLine = null;
-                }
+                resources.isDrawing = false;
+                rotation = 0;
                 canvas.ReleaseMouseCapture();
             }
         }
 
         private void btn_pencil_Click(object sender, RoutedEventArgs e)
         {
-            typeShape = "pencil";
-            Debug.WriteLine("pencil");
+            
         }
 
         private void btn_clrBlack_Click(object sender, RoutedEventArgs e)
         {
-            selectedColor = Brushes.Black;
+            shape.Stroke = Brushes.Black;
         }
 
         private void btn_clrRed_Click(object sender, RoutedEventArgs e)
         {
-            selectedColor = Brushes.Red;
+            shape.Stroke = Brushes.Red;
         }
 
         private void btn_clrBlue_Click(object sender, RoutedEventArgs e)
         {
-            selectedColor = Brushes.Blue;
+            shape.Stroke = Brushes.Blue;
         }
 
         private void btn_clrGreen_Click(object sender, RoutedEventArgs e)
         {
-            selectedColor = Brushes.Green;
+            shape.Stroke = Brushes.Green;
         }
 
         private void btn_dotLne_Click(object sender, RoutedEventArgs e)
         {
-            selectedPattern = new DoubleCollection { 1, 2 };
+            shape.StrokeDashArray = new DoubleCollection { 1, 2 };
         }
 
         private void btn_lineStroke_Click(object sender, RoutedEventArgs e)
         {
-            selectedPattern = new DoubleCollection { 4, 2 };
+            shape.StrokeDashArray = new DoubleCollection { 4, 2 };
         }
 
         private void btn_convStroke_Click(object sender, RoutedEventArgs e)
         {
-            selectedPattern = new DoubleCollection { 4, 2, 1, 2 };
+            shape.StrokeDashArray = new DoubleCollection { 4, 2, 1, 2 };
         }
 
         private void btn_clean_Click(object sender, RoutedEventArgs e)
@@ -275,6 +175,95 @@ namespace paint
         private void sld_stroke_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             slectedThickness = e.NewValue;
+            if (shape != null)
+            {
+                shape.StrokeThickness = slectedThickness;
+            }
+        }
+
+        private void btn_clrBlackBackground_Click(object sender, RoutedEventArgs e)
+        {
+            shape.Fill = Brushes.Black;
+        }
+
+        private void btn_clrRedBackground_Click(object sender, RoutedEventArgs e)
+        {
+            shape.Fill = Brushes.Red;
+        }
+
+        private void btn_clrBlueBackground_Click(object sender, RoutedEventArgs e)
+        {
+            shape.Fill = Brushes.Blue;
+        }
+
+        private void btn_clrGreenBackground_Click(object sender, RoutedEventArgs e)
+        {
+            shape.Fill = Brushes.Green;
+        }
+
+        private void btn_translation_Click(object sender, RoutedEventArgs e)
+        {
+            shape.MouseLeftButtonDown += Shape_MouseLeftButtonDown;
+            shape.MouseMove += Shape_MouseMove;
+            shape.MouseLeftButtonUp += Shape_MouseLeftButtonUp;
+        }
+
+        private void Shape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = true;
+            startPoint = e.GetPosition(canvas);  // Obtener posición inicial
+            shape.CaptureMouse();  // Capturar el mouse
+        }
+
+        private void Shape_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Point currentPoint = e.GetPosition(canvas);
+
+                // Calcular el desplazamiento
+                double offsetX = currentPoint.X - startPoint.X;
+                double offsetY = currentPoint.Y - startPoint.Y;
+
+                // Actualizar la posición del rectángulo en el Canvas
+                double newLeft = Canvas.GetLeft(shape) + offsetX;
+                double newTop = Canvas.GetTop(shape) + offsetY;
+
+                Canvas.SetLeft(shape, newLeft);
+                Canvas.SetTop(shape, newTop);
+
+                startPoint = currentPoint;  // Actualizar la posición inicial
+            }
+        }
+
+        // Evento al soltar el botón izquierdo del mouse
+        private void Shape_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = false;
+            shape.ReleaseMouseCapture();  // Liberar el mouse
+        }
+
+        private void btn_scaled_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_rotation_Click(object sender, RoutedEventArgs e)
+        {
+            rotation += 10;
+            RotateTransform rotateTransform = new RotateTransform
+            {
+                Angle = rotation,
+                CenterX = width / 2,
+                CenterY = height / 2
+            };
+
+            shape.RenderTransform = rotateTransform;
+        }
+
+        private void btn_skewed_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
